@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Service</title>
+</head>
+<body>
+    <h1>Weather Service</h1>
+
+    <h2>Get the current weather in Moscow time</h2>
+    <button id="currentWeatherBtn">Get the current weather in Moscow time</button>
+    <div id="currentWeatherContainer"></div>
+
+    <h2>Get the weather forecast for 3 days in Paris</h2>
+    <button id="weatherForecastBtn">Get the weather forecast for 3 days in Paris</button>
+    <div id="weatherForecastContainer"></div>
+
+    <h2>Get the weather forecast for the week in London</h2>
+    <button id="weeklyWeatherForecastBtn">Get the weather forecast for the week in London</button>
+    <div id="weeklyWeatherForecastContainer"></div>
+
+    <script>
+        document.getElementById('currentWeatherBtn').addEventListener('click', function() {
+            var city = 'Moscow';
+            get_current_weather(city);
+        });
+
+        document.getElementById('weatherForecastBtn').addEventListener('click', function() {
+            var city = 'Paris';
+            getWeatherForecast(city);
+        });
+
+        document.getElementById('weeklyWeatherForecastBtn').addEventListener('click', function() {
+            var city = 'London';
+            getWeeklyWeatherForecast(city);
+        });
+        function get_current_weather(city) {
+            fetch(`/current_weather/${city}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('currentWeatherContainer').innerText = JSON.stringify(data);
+                })
+                .catch(error => {
+                    document.getElementById('currentWeatherContainer').innerText = error;
+                });
+        }
+
+        function getWeatherForecast(city) {
+            fetch(`/weather_forecast/${city}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('weatherForecastContainer').innerText = JSON.stringify(data);
+                })
+                .catch(error => {
+                    document.getElementById('weatherForecastContainer').innerText = error;
+                });
+        }
+
+        function getWeeklyWeatherForecast(city) {
+            fetch(`/weekly_weather_forecast/${city}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('weeklyWeatherForecastContainer').innerText = JSON.stringify(data);
+                })
+                .catch(error => {
+                    document.getElementById('weeklyWeatherForecastContainer').innerText = error;
+                });
+        }
+    </script>
+</body>
+</html>
